@@ -2,20 +2,190 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col">
-        {% for post in posts %}
-        <div class="post">
-            <div class="date">{{ post.published_at }}</div>
-            <h1><a href="" class="text-decoration-none fst-italic">{{ post.title }}</a></h1>
-            <div class="date author">@{{ post.author.username }}</div>
-            <p>
-                {{ post.content|truncatewords:200 }}
-                <a href="#">View more</a>
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
+        <div>
+            <h1 class="fw-bold mb-2">
+                <a href="/" class="text-decoration-none text-dark">
+                    <i class="bi bi-journal-richtext text-primary me-2"></i>
+                    Latest Posts
+                </a>
+            </h1>
+            <p class="text-muted mb-0">
+                Read the latest articles and stories from our authors.
             </p>
         </div>
-        {% endfor %}
+
+        <span class="badge bg-primary-subtle text-primary px-3 py-2 mt-3 mt-md-0">
+            {{ posts|length }} Posts
+        </span>
     </div>
+
+
+    <!-- Posts -->
+    <div class="row g-4">
+
+        {% for post in posts %}
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <article class="card h-100 border-0 shadow-sm post-card">
+
+                <!-- Card Header -->
+                <div class="card-body p-4">
+
+                    <!-- Date -->
+                    <div class="d-flex align-items-center text-muted small mb-3">
+                        <i class="bi bi-calendar3 me-2"></i>
+                        {{ post.published_at }}
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="card-title fw-bold mb-3">
+                        <a href="{% url 'post-detail' post.pk %}" class="text-decoration-none text-dark post-title">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+
+                    <!-- Author -->
+                    <div class="d-flex align-items-center mb-4">
+
+                        <div class="author-avatar">
+                            {{ post.author.username|first|upper }}
+                        </div>
+
+                        <div class="ms-2">
+                            <small class="text-muted d-block">Written by</small>
+                            <span class="fw-semibold">
+                                @{{ post.author.username }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <!-- Content -->
+                    <p class="card-text text-muted lh-lg">
+                        {{ post.content|truncatewords:35 }}
+                    </p>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer bg-white border-0 px-4 pb-4">
+
+                    <a href="{% url 'post-detail' post.pk %}" class="btn btn-outline-primary rounded-pill px-4">
+                        View More
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+        {% empty %}
+
+        <!-- Empty State -->
+        <div class="col-12">
+            <div class="text-center py-5">
+
+                <div class="empty-icon mb-3">
+                    <i class="bi bi-journal-x"></i>
+                </div>
+
+                <h3 class="fw-bold">No posts yet</h3>
+
+                <p class="text-muted">
+                    There are currently no posts available.
+                </p>
+
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
 </div>
+
+
+<style>
+    /* Post Card */
+    .post-card {
+        border-radius: 18px;
+        transition: all 0.25s ease;
+        overflow: hidden;
+    }
+
+    .post-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10) !important;
+    }
+
+
+    /* Post title */
+    .post-title {
+        transition: color 0.2s ease;
+    }
+
+    .post-title:hover {
+        color: var(--bs-primary) !important;
+    }
+
+
+    /* Author avatar */
+    .author-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg,
+                var(--bs-primary),
+                #6f42c1);
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+
+    /* Empty state */
+    .empty-icon {
+        width: 80px;
+        height: 80px;
+        margin: auto;
+
+        border-radius: 50%;
+        background: var(--bs-light);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 32px;
+        color: var(--bs-secondary);
+    }
+
+
+    /* Mobile */
+    @media (max-width: 576px) {
+
+        .container {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+    }
+</style>
 
 {% endblock content %}

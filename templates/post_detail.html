@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+
+            <!-- Back Button -->
+            <div class="mb-4">
+                <a href="/" class="text-decoration-none text-muted">
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Back to Posts
+                </a>
+            </div>
+
+            <!-- Article Card -->
+            <article class="article-card">
+
+                <!-- Article Header -->
+                <div class="article-header">
+
+                    <!-- Date -->
+                    <div class="article-date mb-3">
+                        <i class="bi bi-calendar3 me-2"></i>
+                        {{ post.published_at }}
+                    </div>
+
+                    <!-- Title -->
+                    <h1 class="article-title">
+                        {{ post.title }}
+                    </h1>
+
+                    <!-- Author -->
+                    <div class="author-section mt-4">
+
+                        <div class="author-avatar">
+                            {{ post.author.username|first|upper }}
+                        </div>
+
+                        <div>
+                            <small class="text-muted d-block">
+                                Written by
+                            </small>
+
+                            <span class="author-name">
+                                @{{ post.author.username }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Admin Actions -->
+                {% if request.user.is_authenticated %}
+
+                <div class="admin-actions">
+
+                    <span class="text-muted small me-auto">
+                        <i class="bi bi-gear me-1"></i>
+                        Post Management
+                    </span>
+
+                    <a href="#" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-pencil me-1"></i>
+                        Edit
+                    </a>
+
+                    <a href="#" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash me-1"></i>
+                        Delete
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- Article Content -->
+                <div class="article-content">
+
+                    {{ post.content|linebreaksbr }}
+
+                </div>
+
+
+                <!-- Article Footer -->
+                <div class="article-footer">
+
+                    <div class="d-flex align-items-center">
+                        <div class="author-avatar small-avatar">
+                            {{ post.author.username|first|upper }}
+                        </div>
+
+                        <div class="ms-3">
+                            <small class="text-muted">
+                                Published by
+                            </small>
+
+                            <div class="fw-semibold">
+                                @{{ post.author.username }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    /* Article card */
+    .article-card {
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Header */
+    .article-header {
+        padding: 45px 50px 35px;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    /* Date */
+    .article-date {
+        color: #6c757d;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    /* Title */
+    .article-title {
+        font-size: 42px;
+        line-height: 1.2;
+        font-weight: 800;
+        letter-spacing: -0.8px;
+        color: #212529;
+        margin: 0;
+    }
+
+    /* Author */
+    .author-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .author-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: linear-gradient(135deg,
+                #0d6efd,
+                #6f42c1);
+
+        color: white;
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .author-name {
+        font-weight: 600;
+        color: #212529;
+    }
+
+    /* Admin buttons */
+    .admin-actions {
+        padding: 15px 50px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eeeeee;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .admin-actions .btn {
+        border-radius: 8px;
+    }
+
+    /* Article content */
+    .article-content {
+        padding: 45px 50px;
+
+        font-size: 18px;
+        line-height: 1.9;
+        color: #343a40;
+    }
+
+    /* Footer */
+    .article-footer {
+        padding: 25px 50px;
+        border-top: 1px solid #eeeeee;
+        background: #fafafa;
+    }
+
+    .small-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 15px;
+    }
+
+    /* Back button */
+    .text-muted {
+        transition: color 0.2s ease;
+    }
+
+    a.text-muted:hover {
+        color: var(--bs-primary) !important;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+
+        .article-header {
+            padding: 30px 25px;
+        }
+
+        .article-title {
+            font-size: 32px;
+        }
+
+        .article-content {
+            padding: 30px 25px;
+            font-size: 17px;
+        }
+
+        .admin-actions {
+            padding: 15px 25px;
+            flex-wrap: wrap;
+        }
+
+        .admin-actions .text-muted {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .article-footer {
+            padding: 20px 25px;
+        }
+
+    }
+</style>
+
+{% endblock content %}
