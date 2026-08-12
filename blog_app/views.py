@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from blog_app.models import Post
@@ -20,3 +21,8 @@ def post_detail(request, pk):
         "post_detail.html",
         {"post": post},
     )
+
+def post_delete(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.delete()
+    return HttpResponseRedirect("/")
