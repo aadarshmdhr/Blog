@@ -4,24 +4,289 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}My Blog{% endblock title %}</title>
+    <title>
+        {% block title %}My Blog{% endblock title %}
+    </title>
 
+    <!-- Bootstrap -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: #f5f7fb;
+            color: #212529;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                "Segoe UI", sans-serif;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 800;
+            color: #212529 !important;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand i {
+            color: #0d6efd;
+        }
+
+        /* Navigation links */
+        .nav-link {
+            color: #495057 !important;
+            font-weight: 500;
+            padding: 9px 14px !important;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: #f1f5ff;
+            color: #0d6efd !important;
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 9px;
+            font-weight: 500;
+        }
+
+        .btn-add {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        /* Main content */
+        main {
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        /* Mobile */
+        @media (max-width: 991px) {
+
+            .navbar-nav {
+                padding-top: 15px;
+            }
+
+            .nav-link {
+                margin-bottom: 5px;
+            }
+
+            .navbar-buttons {
+                margin-top: 10px;
+            }
+
+        }
+    </style>
+
 </head>
 
+
 <body>
-    <div class="container">
-        {% block content %}
-        {% endblock content %}
-    </div>
-    <script src="{ static 'js/bootstrap.bundle.min.js' }"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+
+        <div class="container">
+
+            <!-- Logo -->
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-journal-richtext me-2"></i>
+                Blog
+            </a>
+
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+
+                <i class="bi bi-list fs-2"></i>
+
+            </button>
+
+
+            <!-- Navigation -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+                    <!-- Home -->
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-house me-1"></i>
+                            Home
+                        </a>
+
+                    </li>
+
+
+                    {% if request.user.is_authenticated %}
+
+                    <!-- Add Post -->
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            New Post
+                        </a>
+
+                    </li>
+
+
+                    <!-- Drafts -->
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-file-earmark-text me-1"></i>
+                            Drafts
+                        </a>
+
+                    </li>
+
+
+                    <!-- User -->
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+
+                            <i class="bi bi-person-circle me-1"></i>
+                            {{ request.user.username }}
+
+                        </a>
+
+
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
+
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-person me-2"></i>
+                                    Profile
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-gear me-2"></i>
+                                    Settings
+                                </a>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item text-danger" href="#">
+                                    <i class="bi bi-box-arrow-right me-2"></i>
+                                    Logout
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    {% else %}
+
+                    <!-- Login -->
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            Login
+                        </a>
+
+                    </li>
+
+
+                    <!-- Register -->
+                    <li class="nav-item">
+
+                        <a class="btn btn-primary px-3 ms-lg-2" href="#">
+
+                            <i class="bi bi-person-plus me-1"></i>
+                            Register
+
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <main>
+
+        <div class="container py-4">
+
+            {% block content %}
+            {% endblock content %}
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="d-flex flex-column flex-md-row
+                        justify-content-between align-items-center">
+
+                <div>
+                    <i class="bi bi-journal-richtext me-1"></i>
+                    <strong>My Blog</strong>
+                </div>
+
+                <div class="mt-2 mt-md-0">
+                    © {% now "Y" %} My Blog. All rights reserved.
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- Bootstrap JavaScript -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
 </body>
 
 </html>
