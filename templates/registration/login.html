@@ -31,6 +31,10 @@
 
             {% csrf_token %}
 
+            {% if form.errors and form.non_field_erroes %}
+            {{ form.non_field_errors }}
+            {% endif %}
+
 
             <!-- Username -->
             <div class="mb-3">
@@ -39,6 +43,10 @@
                     <i class="bi bi-person me-1"></i>
                     Username
                 </label>
+                
+                {% if form.username.errors %}
+                {{ form.username.errors }}
+                {% endif %}
 
                 <div class="input-group">
 
@@ -47,7 +55,7 @@
                     </span>
 
                     <input type="text" name="username" id="username" class="form-control"
-                        placeholder="Enter your username" autocomplete="username" required>
+                        placeholder="Enter your username" autocomplete="username">
 
                 </div>
 
@@ -62,6 +70,10 @@
                     Password
                 </label>
 
+                {% if form.password.errors %}
+                {{ form.password.errors }}
+                {% endif %}
+
                 <div class="input-group">
 
                     <span class="input-group-text">
@@ -69,7 +81,7 @@
                     </span>
 
                     <input type="password" name="password" id="password" class="form-control"
-                        placeholder="Enter your password" autocomplete="current-password" required>
+                        placeholder="Enter your password" autocomplete="current-password">
 
                     <button class="btn btn-outline-secondary password-toggle" type="button" id="togglePassword">
 

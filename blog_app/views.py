@@ -7,7 +7,7 @@ from blog_app.models import Post
 
 
 def post_list(request):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(published_at__isnull=False)
     return render(
         request,
         "post_list.html",
@@ -35,17 +35,17 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def draft_list(request):
-    post = Post.objects.filter(published_date__isnull=True)
+    posts = Post.objects.filter(published_at__isnull=True)
     return render(
         request,
         "draft_list.html",
-        {"posts": post},
+        {"posts": posts},
     )
 
 
 @login_required
 def draft_detail(request, pk):
-    post = Post.objects.get(pk=pk, published_date__isnull=True)
+    post = Post.objects.get(pk=pk, published_at__isnull=True)
     return render(
         request,
         "draft_detail.html",
