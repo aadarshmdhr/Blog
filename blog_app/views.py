@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
+from blog_app.forms import PostForm
 from blog_app.models import Post
 
 # Create your views here.
@@ -51,3 +52,29 @@ def draft_detail(request, pk):
         "draft_detail.html",
         {"post": post},
     )
+
+
+@login_required
+def post_create(request):
+    if request.method == "GET":
+        form = PostForm()
+        return render(
+            request,
+            "post_create.html",
+            {"form": form},
+        )
+
+    else:
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect("draft-detail", pk=post.pk)
+        else:
+            return render(
+                request,
+                "post_create.html",
+                {"form": form},
+            )

@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    /* Page background */
+    .create-post-page {
+        min-height: 80vh;
+        padding: 50px 15px;
+    }
+
+    /* Header */
+    .create-post-header {
+        margin-bottom: 25px;
+    }
+
+    .create-post-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 8px;
+    }
+
+    .create-post-header p {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    /* Form Card */
+    .post-form-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 18px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        padding: 35px;
+    }
+
+    /* Form fields */
+    .post-form p {
+        margin-bottom: 22px;
+    }
+
+    .post-form label {
+        display: block;
+        font-weight: 600;
+        color: #343a40;
+        margin-bottom: 8px;
+    }
+
+    .post-form input,
+    .post-form textarea,
+    .post-form select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        background-color: #fff;
+        color: #212529;
+        font-size: 15px;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+
+    .post-form textarea {
+        min-height: 220px;
+        resize: vertical;
+    }
+
+    /* Focus effect */
+    .post-form input:focus,
+    .post-form textarea:focus,
+    .post-form select:focus {
+        outline: none;
+        border-color: #198754;
+        box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.12);
+    }
+
+    /* Help text */
+    .post-form .helptext {
+        display: block;
+        margin-top: 6px;
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    /* Error messages */
+    .post-form .errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 8px;
+        color: #dc3545;
+        font-size: 14px;
+    }
+
+    /* Bottom buttons */
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .cancel-btn {
+        padding: 10px 22px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #495057;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        transition: 0.2s ease;
+    }
+
+    .cancel-btn:hover {
+        background: #e9ecef;
+        color: #212529;
+    }
+
+    .publish-btn {
+        padding: 10px 25px;
+        border: none;
+        border-radius: 10px;
+        background: #198754;
+        color: white;
+        font-weight: 600;
+        transition: 0.2s ease;
+    }
+
+    .publish-btn:hover {
+        background: #157347;
+        transform: translateY(-1px);
+        box-shadow: 0 5px 12px rgba(25, 135, 84, 0.2);
+    }
+
+    /* Mobile */
+    @media (max-width: 576px) {
+        .create-post-page {
+            padding: 30px 10px;
+        }
+
+        .post-form-card {
+            padding: 25px 20px;
+            border-radius: 14px;
+        }
+
+        .create-post-header h1 {
+            font-size: 1.6rem;
+        }
+
+        .form-actions {
+            gap: 10px;
+        }
+
+        .cancel-btn,
+        .publish-btn {
+            padding: 9px 16px;
+        }
+    }
+</style>
+
+
+<div class="create-post-page">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                <!-- Header -->
+                <div class="create-post-header">
+                    <h1>Create New Post</h1>
+                    <p>
+                        Share your thoughts, ideas, or stories with the community.
+                    </p>
+                </div>
+
+                <!-- Form Card -->
+                <div class="post-form-card">
+
+                    <form method="post" class="post-form">
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+
+                        <!-- Actions -->
+                        <div class="form-actions">
+
+                            <a href="{% url 'post-list' %}" class="cancel-btn">
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="publish-btn">
+                                <i class="bi bi-check-lg"></i>
+                                Publish Post
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

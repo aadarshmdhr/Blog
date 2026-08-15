@@ -1,27 +1,271 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-    <div class="col">
-        <div class="post">
+
+<style>
+    /* Page */
+    .post-detail-page {
+        min-height: 80vh;
+        padding: 50px 15px;
+    }
+
+    /* Main post card */
+    .post-detail-card {
+        max-width: 850px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+    }
+
+    /* Top action buttons */
+    .post-actions-top {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 25px;
+    }
+
+    /* Publish button */
+    .publish-btn {
+        padding: 9px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        background: #198754;
+        color: white;
+        transition: all 0.2s ease;
+    }
+
+    .publish-btn:hover {
+        background: #157347;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    /* Post title */
+    .post-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #212529;
+        margin-bottom: 15px;
+    }
+
+    /* Author */
+    .post-author {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #6c757d;
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+    }
+
+    .author-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #198754;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .author-name {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    /* Divider */
+    .post-divider {
+        border: 0;
+        border-top: 1px solid #eeeeee;
+        margin: 25px 0;
+    }
+
+    /* Content */
+    .post-content {
+        font-size: 1.08rem;
+        line-height: 1.9;
+        color: #343a40;
+        white-space: normal;
+    }
+
+    .post-content p {
+        margin-bottom: 1.2rem;
+    }
+
+    /* Bottom actions */
+    .post-actions-bottom {
+        display: flex;
+        gap: 10px;
+        margin-top: 35px;
+        padding-top: 25px;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        padding: 9px 20px;
+        border-radius: 9px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .edit-btn {
+        background: #0d6efd;
+        color: white;
+    }
+
+    .edit-btn:hover {
+        background: #0b5ed7;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+    }
+
+    .delete-btn:hover {
+        background: #bb2d3b;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    /* Back button */
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #6c757d;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+
+    .back-link:hover {
+        color: #198754;
+    }
+
+    /* Mobile */
+    @media (max-width: 576px) {
+
+        .post-detail-page {
+            padding: 30px 10px;
+        }
+
+        .post-detail-card {
+            padding: 25px 20px;
+            border-radius: 15px;
+        }
+
+        .post-title {
+            font-size: 1.8rem;
+        }
+
+        .post-content {
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        .post-actions-top {
+            justify-content: flex-start;
+        }
+
+        .post-actions-bottom {
+            flex-direction: column;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            text-align: center;
+        }
+    }
+</style>
+
+
+<div class="post-detail-page">
+
+    <div class="container">
+
+        <div class="post-detail-card">
+
+            <!-- Publish -->
             {% if request.user.is_authenticated %}
-            <div class="mt-2">
-                <a href="" class="btn btn-success">Publish</a>
+            <div class="post-actions-top">
+                <a href="#" class="publish-btn">
+                    Publish
+                </a>
             </div>
             {% endif %}
-            <h1>
-                <a href="#" class="text-decoration-none fst-italic">{{ post.title }}</a>
+
+
+            <!-- Title -->
+            <h1 class="post-title">
+                {{ post.title }}
             </h1>
+
+
+            <!-- Author -->
+            <div class="post-author">
+
+                <div class="author-avatar">
+                    {{ post.author.username|first }}
+                </div>
+
+                <div>
+                    <div class="author-name">
+                        @{{ post.author.username }}
+                    </div>
+
+                    <small class="text-muted">
+                        Blog Author
+                    </small>
+                </div>
+
+            </div>
+
+
+            <hr class="post-divider">
+
+
+            <!-- Content -->
+            <div class="post-content">
+                {{ post.content|linebreaksbr }}
+            </div>
+
+
+            <!-- Edit / Delete -->
             {% if request.user.is_authenticated %}
-            <div class="mt-2 my-2">
-                <a href="#" class="btn btn-primary">Edit</a>
-                <a href="{% url 'post-delete' post.pk %}" class="btn btn-danger">Delete</a>
+            <div class="post-actions-bottom">
+
+                <a href="#" class="edit-btn">
+                    Edit
+                </a>
+
+                <a href="{% url 'post-delete' post.pk %}" class="delete-btn">
+                    Delete
+                </a>
+
             </div>
             {% endif %}
-            <div class="date author">@{{ post.author.username }}</div>
-            <p>{{ post.contenet|linebreaksbr }}</p>
+
+
+            <!-- Back -->
+            <a href="{% url 'post-list' %}" class="back-link">
+                ← Back to Posts
+            </a>
+
         </div>
+
     </div>
+
 </div>
 
 {% endblock content %}
