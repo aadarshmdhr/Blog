@@ -25,12 +25,6 @@ def post_detail(request, pk):
     )
 
 
-def post_delete(request, pk):
-    post = Post.objects.get(pk=pk)
-    post.delete()
-    return HttpResponseRedirect("/")
-
-
 from django.contrib.auth.decorators import login_required
 
 
@@ -105,3 +99,24 @@ def post_update(request, pk):
                 "post_create.html",
                 {"form": form},
             )
+
+
+from django.utils import timezone
+
+
+@login_required
+def draft_publish(request, pk):
+    post = Post.objects.get(pk=pk, published_at__isnull=True)
+    post.published_at = timezone.now()
+    post.save()
+    return redirect("post-list")
+
+
+@login_required
+def post_delete(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.delete()
+    if post.published_at:
+        return redirect("post-list")
+    else:
+        return redirect("draft-list")
