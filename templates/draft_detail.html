@@ -245,7 +245,7 @@
             {% if request.user.is_authenticated %}
             <div class="post-actions-bottom">
 
-                <a href="#" class="edit-btn">
+                <a href="{% url 'post-update' post.pk %}" class="edit-btn">
                     Edit
                 </a>
 
